@@ -13,10 +13,14 @@
 //Input: nums = [2,2,1,1,1,2,2]
 //Output: 2
 
-
 int majorityElement(int* nums, int numsSize) {
      // TODO: implement
-
-
-
+     for (int i = 0; i < numsSize; i++) {
+          int count = 0;
+          for (int j = 0; j < numsSize; j++) {
+               if (nums[j] == nums[i]) count++;
+          }
+          if (count > numsSize / 2) return nums[i];
+     }
+     return -1;
 }
