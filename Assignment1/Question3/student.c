@@ -26,8 +26,24 @@
 //Output parameter (returnSize): set *returnSize to the number of digits in the returned array.
 
 int* plusOne(int* digits, int digitsSize, int* returnSize) {
-    // TODO: implement
 
-    
+    int* result = (int*)malloc((digitsSize + 1) * sizeof(int));
+    for (int i = 0; i < digitsSize; i++) {
+        result[i] = digits[i];
+    }
+    result[digitsSize] = 0;
+
+    for (int i = digitsSize - 1; i >= 0; i--) {
+        if (result[i] < 9) {
+            result[i]++;
+            *returnSize = digitsSize;
+            return result;
+        }
+        result[i] = 0;
+    }
+
+    result[0] = 1;
+    *returnSize = digitsSize + 1;
+    return result;
 }
 
