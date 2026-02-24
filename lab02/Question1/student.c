@@ -29,7 +29,47 @@
 #include <stddef.h>  // size_t
 #include <string.h>  // strlen
 
+
+int max = 100;
+char stack[100];
+int top = -1;
+
+int isEmpty(){
+    return top == -1;
+}
+
+int isFull(){
+    return top == max - 1;
+}
+
+int push (char v){
+    if(isFull()){
+        return 0;
+    }
+    stack[++top] = v;
+    return 1;
+}
+
+char pop(){
+    if(isEmpty()){
+        return 'a';
+    }
+    return stack[top--];
+}
+
+char peek(){
+    if(isEmpty()){
+        return 'a';
+    }
+    return stack[top];
+}
+
+void reset(){
+    top = -1;
+}
+
 bool isValid(const char *s) {
+    reset();
     // TODO: Implement using a stack.
     //
     // Recommended approach:
@@ -53,7 +93,24 @@ bool isValid(const char *s) {
     //
     // Note:
     // - Input contains only bracket characters, per the prompt.
-
-    (void)s; // remove after implementing
-    return false; // placeholder
+    if(s==NULL)return false;
+    int n = strlen(s);
+    for(int i=0;i<n;i++){
+        char c = s[i];
+        if(c == '{' || c == '[' || c == '('){
+            push(c);
+        }
+        if ((c == '}') || (c == ']') || (c == ')')){
+            char e = peek();
+            if((c == '}' && e == '{')||(c == ']' && e == '[')||(c == ')' && e == '(')){
+                pop();
+            } else {
+                return false;
+            }
+        }
+    }
+    if(!isEmpty()){
+        return false;
+    }
+    return true;
 }
