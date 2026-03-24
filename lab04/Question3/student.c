@@ -56,6 +56,17 @@ struct TreeNode {
 };
 
 
+static int sumHelper(struct TreeNode* node, int current) {
+    if (node == NULL){
+        return 0;
+    }
+    current = current * 10 + node->val;
+    if (node->left == NULL && node->right == NULL){
+        return current;
+    }
+    return sumHelper(node->left, current) + sumHelper(node->right, current);
+}
+
 int sumNumbers(struct TreeNode* root) {
-      // TODO: implement
+    return sumHelper(root, 0);
 }

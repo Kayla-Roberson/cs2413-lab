@@ -28,11 +28,36 @@ struct TreeNode {
     struct TreeNode *right;
 };
 
+int heightHelper(struct TreeNode* node, int min, int max, bool useMin, bool useMax){
+    if(node == NULL){
+        return 0;
+    }
+
+    if(useMin && node->val <= min) return -1;
+    if(useMax && node->val >= max) return -1;
+    int leftHeight  = heightHelper(node->left,  min, node->val, useMin, true);
+    int rightHeight = heightHelper(node->right, node->val, max, true, useMax);
+    if(leftHeight == -1 || rightHeight == -1){
+        return -1;
+    }
+    int diff = leftHeight - rightHeight;
+    if(diff > 1 || diff < -1) return -1;
+    if(leftHeight > rightHeight){
+        return 1 + leftHeight;
+    }else{
+        return 1 + rightHeight;
+    }
+}
+
 bool isAVL(struct TreeNode* root) {
-    // TODO: implement
-    // Hint: One common O(n) approach:
-    // - Use a recursive helper that returns the subtree height,
-    //   and returns -1 if subtree is invalid (BST violation or unbalanced).
-    (void)root;
-    return false;
+    if(root == NULL){
+        return true;
+    }
+    // Pass int min/max as bounds
+    int bf = heightHelper(root, 0, 0, false, false);
+    if(bf == -1){
+        return false;
+    }else{
+        return true;
+    }
 }
